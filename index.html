@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מידע על חיבור הרשת</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #27293d;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      width: 350px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #00f2c3;
+    }
+    .info-item {
+      margin: 12px 0;
+      border-bottom: 1px solid #3d3f5a;
+      padding-bottom: 8px;
+    }
+    span {
+      font-weight: bold;
+      color: #e14eca;
+    }
+    button {
+      background: #00f2c3;
+      border: none;
+      padding: 10px 15px;
+      color: #1e1e2f;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>נתוני רשת ו-IP 🌐</h2>
+    <div class="info-item">כתובת IP: <span id="ip">-</span></div>
+    <div class="info-item">ספק אינטרנט (ISP): <span id="isp">-</span></div>
+    <div class="info-item">מדינה: <span id="country">-</span></div>
+    <div class="info-item">עיר: <span id="city">-</span></div>
+    <div class="info-item">ארגון / ASN: <span id="org">-</span></div>
+    
+    <button onclick="getNetworkData()">רענן נתונים</button>
+  </div>
+
+  <script>
+    async function getNetworkData() {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        document.getElementById('ip').textContent = data.ip || 'לא זמין';
+        document.getElementById('isp').textContent = data.org || 'לא זמין';
+        document.getElementById('country').textContent = data.country_name || 'לא זמין';
+        document.getElementById('city').textContent = data.city || 'לא זמין';
+        document.getElementById('org').textContent = data.asn || 'לא זמין';
+      } catch (error) {
+        console.error('שגיאה בטעינת הנתונים:', error);
+      }
+    }
+
+    getNetworkData();
+  </script>
+
+</body>
+</html>
